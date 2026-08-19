@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "orders")
 @Data
@@ -16,12 +18,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double amount;
+    @Column(name = "product_name", nullable = false)
+    private String productName;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-
 
 }

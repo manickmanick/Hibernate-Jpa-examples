@@ -24,16 +24,19 @@ public class User {
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String role;
-
-    @OneToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
-
-    @OneToMany(mappedBy = "user")
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY
+    )
     private List<Order> orders = new ArrayList<>();
+
+    public void addOrder(Order order){
+        orders.add(order);
+        order.setUser(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setUser(null);
+    }
 }
