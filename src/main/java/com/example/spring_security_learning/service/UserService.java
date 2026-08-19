@@ -31,18 +31,26 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public void testNPlusOne() {
+    public List<UserResponse> testNPlusOne() {
 
-        List<User> users = userRepository.findAll();
+//        List<User> users = userRepository.findAll();
 
-        for (User user : users) {
+        List<User> users = userRepository.findAllWithOrders();
+//        System.out.println(users);
+//        System.out.println("===========================================================================");
+//        for (User user : users) {
+//
+//            System.out.println(
+//                    user.getName() +
+//                            " -> " +
+//                            user.getOrders().size()+
+//                            " orders"
+//            );
+//        }
+        return users.stream()
+                .map(userMapper::toResponse)
+                .toList();
 
-            System.out.println(
-                    user.getName() +
-                            " -> " +
-                            user.getOrders().size() +
-                            " orders"
-            );
-        }
+//        return users;
     }
 }

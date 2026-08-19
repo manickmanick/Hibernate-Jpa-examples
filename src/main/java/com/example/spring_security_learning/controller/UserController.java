@@ -2,11 +2,14 @@ package com.example.spring_security_learning.controller;
 
 import com.example.spring_security_learning.dto.CreateUserRequest;
 import com.example.spring_security_learning.dto.UserResponse;
+import com.example.spring_security_learning.entity.User;
 import com.example.spring_security_learning.service.UserService;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,10 +36,10 @@ public class UserController {
     }
 
     @GetMapping("/test-n-plus-one")
-    public ResponseEntity<String> testNPlusOne() {
+    public ResponseEntity<List<UserResponse>> testNPlusOne() {
 
-        userService.testNPlusOne();
+        List<UserResponse> users = userService.testNPlusOne();
 
-        return ResponseEntity.ok("Check console");
+        return ResponseEntity.ok(users);
     }
 }
