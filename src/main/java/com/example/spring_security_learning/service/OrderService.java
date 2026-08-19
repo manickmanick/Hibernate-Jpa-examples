@@ -1,6 +1,7 @@
 package com.example.spring_security_learning.service;
 
 import com.example.spring_security_learning.dto.CreateOrderRequest;
+import com.example.spring_security_learning.dto.OrderDetailResponse;
 import com.example.spring_security_learning.dto.OrderResponse;
 import com.example.spring_security_learning.entity.Order;
 import com.example.spring_security_learning.entity.User;
@@ -31,5 +32,15 @@ public class OrderService {
 
         return orderMapper.toResponse(savedOrder);
 
+    }
+
+    @Transactional(readOnly = true)
+    public OrderDetailResponse getOrder(Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found"));
+
+        return orderMapper.toDetailResponse(order);
     }
 }

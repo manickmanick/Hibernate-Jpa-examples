@@ -7,6 +7,7 @@ import com.example.spring_security_learning.mapper.UserMapper;
 import com.example.spring_security_learning.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,5 +19,12 @@ public class UserService {
         User user = userMapper.toEntity(request);
         User savedUser = userRepository.save(user);
         return userMapper.toResponse(savedUser);
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getUser(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("User not found"));
+        return userMapper.toResponse(user);
     }
 }

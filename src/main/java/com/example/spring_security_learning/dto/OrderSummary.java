@@ -3,13 +3,12 @@ package com.example.spring_security_learning.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-@Getter
 @AllArgsConstructor
-public class UserResponse {
+@Getter
+public class OrderSummary {
     private Long id;
-    private String name;
-    private String email;
-    private List<OrderSummary> orders;
+    private String productName;
+    private BigDecimal amount;
 }
