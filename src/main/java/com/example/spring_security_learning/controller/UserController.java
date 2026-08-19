@@ -46,10 +46,11 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<UserResponse>> searchUsers(
+    public ResponseEntity<Page<UserResponse>> searchUsers(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String email){
-        return ResponseEntity.ok(userService.searchByName(name,email));
+            @RequestParam(required = false) String email,
+            Pageable pageable){
+        return ResponseEntity.ok(userService.searchByName(name,email,pageable));
     }
 
     @GetMapping("/page")
@@ -61,4 +62,16 @@ public class UserController {
                 userService.getUsers(pageable)
         );
     }
+
+    @PutMapping("/{id}/name")
+    public ResponseEntity<UserResponse> updateUserName(
+            @PathVariable Long id,
+            @RequestParam String name
+    ) {
+
+        return ResponseEntity.ok(
+                userService.updateUserName(id, name)
+        );
+    }
+
 }

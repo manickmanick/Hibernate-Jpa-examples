@@ -60,19 +60,28 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public List<UserResponse> searchByName(String name,String email){
+    public Page<UserResponse> searchByName(String name,String email,Pageable pageable){
         Specification<User> specification = Specification
                 .where(UserSpecification.hasName(name))
                 .or(UserSpecification.hasEmail(email));
 
-        List<User> users = userRepository.findAll(specification);
+        Page<User> users = userRepository.findAll(specification,pageable);
 
-        return users.stream().map(userMapper::toResponse).toList();
+        return users.map(userMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public Page<UserResponse> getUsers(Pageable pageable){
         Page<User> users = userRepository.findAll(pageable);
         return users.map(userMapper::toResponse);
+    }
+
+    @Transactional
+    public UserResponse updateUserName(Long id,String name){
+        User user = userRepository.findById(id).orElseThrow(
+                ()->new RuntimeException("User not found")
+        );
+        user.setName(name);
+        return userMapper.toResponse(user);
     }
 }
