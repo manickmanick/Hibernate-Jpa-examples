@@ -5,6 +5,8 @@ import com.example.spring_security_learning.dto.UserResponse;
 import com.example.spring_security_learning.entity.User;
 import com.example.spring_security_learning.service.UserService;
 import lombok.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +50,15 @@ public class UserController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email){
         return ResponseEntity.ok(userService.searchByName(name,email));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<UserResponse>> getUsers(
+            Pageable pageable
+    ) {
+
+        return ResponseEntity.ok(
+                userService.getUsers(pageable)
+        );
     }
 }

@@ -7,6 +7,8 @@ import com.example.spring_security_learning.mapper.UserMapper;
 import com.example.spring_security_learning.repository.UserRepository;
 import com.example.spring_security_learning.specification.UserSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,5 +68,11 @@ public class UserService {
         List<User> users = userRepository.findAll(specification);
 
         return users.stream().map(userMapper::toResponse).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserResponse> getUsers(Pageable pageable){
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(userMapper::toResponse);
     }
 }
