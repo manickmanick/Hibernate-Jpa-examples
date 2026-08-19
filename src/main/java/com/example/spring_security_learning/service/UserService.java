@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -26,5 +28,21 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("User not found"));
         return userMapper.toResponse(user);
+    }
+
+    @Transactional(readOnly = true)
+    public void testNPlusOne() {
+
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+
+            System.out.println(
+                    user.getName() +
+                            " -> " +
+                            user.getOrders().size() +
+                            " orders"
+            );
+        }
     }
 }

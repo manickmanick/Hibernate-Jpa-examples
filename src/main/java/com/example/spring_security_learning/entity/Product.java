@@ -1,31 +1,32 @@
 package com.example.spring_security_learning.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "orders")
-@Data
+@Table(name="products")
+@Getter
+@Setter
 @NoArgsConstructor
-public class Order {
-
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_name", nullable = false)
-    private String productName;
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal amount;
+    private BigDecimal price;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    @ManyToMany(mappedBy = "products")
+    private Set<User> users;
 }

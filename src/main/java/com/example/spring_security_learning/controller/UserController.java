@@ -31,4 +31,12 @@ public class UserController {
     public ResponseEntity<UserResponse> getUser(@PathVariable Long userId){
         return ResponseEntity.ok(userService.getUser(userId));
     }
+
+    @GetMapping("/test-n-plus-one")
+    public ResponseEntity<String> testNPlusOne() {
+
+        userService.testNPlusOne();
+
+        return ResponseEntity.ok("Check console");
+    }
 }
