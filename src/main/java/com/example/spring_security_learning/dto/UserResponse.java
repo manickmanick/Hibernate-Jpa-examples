@@ -11,5 +11,5 @@ public class UserResponse {
     private Long id;
     private String name;
     private String email;
-    private List<OrderSummary> orders;
+//    private List<OrderSummary> orders;
 }

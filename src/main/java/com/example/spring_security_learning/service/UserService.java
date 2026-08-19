@@ -5,7 +5,9 @@ import com.example.spring_security_learning.dto.UserResponse;
 import com.example.spring_security_learning.entity.User;
 import com.example.spring_security_learning.mapper.UserMapper;
 import com.example.spring_security_learning.repository.UserRepository;
+import com.example.spring_security_learning.specification.UserSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,5 +54,17 @@ public class UserService {
                 .toList();
 
 //        return users;
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> searchByName(String name,String email){
+        Specification<User> specification = Specification
+                .where(UserSpecification.hasName(name))
+                .or(UserSpecification.hasEmail(email));
+
+        List<User> users = userRepository.findAll(specification);
+
+        return users.stream().map(userMapper::toResponse).toList();
     }
 }

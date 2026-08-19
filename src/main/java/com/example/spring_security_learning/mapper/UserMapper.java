@@ -19,17 +19,18 @@ public class UserMapper {
     }
 
     public UserResponse toResponse(User user){
-        var orders = user.getOrders().stream()
-                .map(order -> new OrderSummary(
-                        order.getId(),
-                        order.getProductName(),
-                        order.getAmount()
-                )).collect(Collectors.toList());
+
+//        var orders = user.getOrders().stream()
+//                .map(order -> new OrderSummary(
+//                        order.getId(),
+//                        order.getProductName(),
+//                        order.getAmount()
+//                )).collect(Collectors.toList());
         return new UserResponse(
                 user.getId(),
                 user.getName(),
-                user.getEmail(),
-                orders
+                user.getEmail()
+//                orders
         );
     }
 }

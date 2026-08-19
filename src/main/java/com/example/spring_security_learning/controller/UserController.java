@@ -42,4 +42,11 @@ public class UserController {
 
         return ResponseEntity.ok(users);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponse>> searchUsers(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email){
+        return ResponseEntity.ok(userService.searchByName(name,email));
+    }
 }
